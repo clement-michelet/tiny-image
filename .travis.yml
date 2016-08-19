@@ -14,15 +14,14 @@ matrix:
   fast_finish: true
 
 before_install:
-  - if [ -f ~/composer/composer.phar ]; then mv ~/composer/composer.phar ./; else wget https://getcomposer.org/composer.phar; fi
   - composer config -g github-oauth.github.com $CI_USER_TOKEN
 
 install:
-  - php -d memory_limit=-1 ./composer.phar install --no-progress --prefer-dist
+  - composer install --no-progress --prefer-dist
 
 script:
-  - ./vendor/bin/phpunit -c phpunit.xml.dist
+  - phpunit -c phpunit.xml.dist --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
