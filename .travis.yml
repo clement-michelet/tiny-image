@@ -17,6 +17,7 @@ before_install:
   - composer config -g github-oauth.github.com $CI_USER_TOKEN
 
 install:
+  - printf "\n" | pecl install imagick
   - composer install --no-progress --prefer-dist
 
 script:
