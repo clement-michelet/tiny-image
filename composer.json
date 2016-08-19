@@ -1,0 +1,25 @@
+{
+  "name": "toothless/tiny-image",
+  "description": "Generate a tiny image of the given image",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Clément MICHELET"
+    }
+  ],
+  "require": {
+    "php": "~5.6|~7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": ">=5.5"
+  },
+  "autoload": {
+    "psr-0": {
+      "Toothless\\": "src/"
+    },
+    "psr-4": {
+      "Toothless\\TinyImage\\": "src/Toothless/TinyImage"
+    }
+  }
+}
