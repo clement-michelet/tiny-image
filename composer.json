@@ -16,11 +16,13 @@
     "ext-imagick": "*"
   },
   "autoload": {
-    "psr-0": {
-      "Toothless\\": "src/"
-    },
     "psr-4": {
       "Toothless\\TinyImage\\": "src/Toothless/TinyImage"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Toothless\\TinyImage\\Tests\\": "test/Toothless/TinyImage"
     }
   }
 }

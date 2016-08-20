@@ -1,6 +1,9 @@
 <?php
 
-namespace Toothless\TinyImage\Provider;
+namespace Toothless\TinyImage\Tests\Provider;
+
+use Toothless\TinyImage\Provider\ContentProvider;
+use Toothless\TinyImage\Provider\ContentProviderInterface;
 
 /**
  * Class ContentProviderTest
