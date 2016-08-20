@@ -13,6 +13,9 @@ cache:
 matrix:
   fast_finish: true
 
+notifications:
+  email: false
+
 before_install:
   - composer config -g github-oauth.github.com $CI_USER_TOKEN
 
