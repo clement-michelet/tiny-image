@@ -1,8 +1,10 @@
 <?php
 
-namespace Toothless\TinyImage\Extractor;
+namespace Toothless\TinyImage\Tests\Extractor;
 
 use Imagick;
+use Toothless\TinyImage\Extractor\DominantColorExtractorInterface;
+use Toothless\TinyImage\Extractor\ImagickDominantColorExtractor;
 
 /**
  * Class ImagickDominantColorExtractorTest

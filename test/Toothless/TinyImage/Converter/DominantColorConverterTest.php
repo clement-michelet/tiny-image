@@ -1,8 +1,10 @@
 <?php
 
-namespace Toothless\TinyImage\Converter;
+namespace Toothless\TinyImage\Tests\Converter;
 
 use PHPUnit_Framework_MockObject_MockObject;
+use Toothless\TinyImage\Converter\ConverterInterface;
+use Toothless\TinyImage\Converter\DominantColorConverter;
 use Toothless\TinyImage\Extractor\DominantColorExtractorInterface;
 use Toothless\TinyImage\Provider\ContentProviderInterface;
 
