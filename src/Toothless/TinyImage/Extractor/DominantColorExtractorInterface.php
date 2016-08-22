@@ -5,14 +5,6 @@ namespace Toothless\TinyImage\Extractor;
 /**
  * Interface DominantColorExtractorInterface
  */
-interface DominantColorExtractorInterface
+interface DominantColorExtractorInterface extends ColorExtractorInterface
 {
-    /**
-     * Get the hexadecimal dominant color code for the given image content
-     *
-     * @param string $content
-     *
-     * @return string
-     */
-    public function extract($content);
 }
