@@ -37,6 +37,11 @@ class ImagickDominantColorExtractor implements DominantColorExtractorInterface
     const DEFAULT_SAMPLE_BLUR_RATIO = 1;
 
     /**
+     * @var RGBColorExtractor
+     */
+    private $extractor;
+
+    /**
      * @var Imagick
      */
     private $imagick;
@@ -59,23 +64,26 @@ class ImagickDominantColorExtractor implements DominantColorExtractorInterface
     /**
      * ImagickDominantColorExtractor constructor.
      *
-     * @param Imagick $imagick         Imagick instance
-     * @param int     $sampleWidth     Image sample width
-     * @param int     $sampleHeight    Image sample height
-     * @param int     $sampleBlurRatio Image blur ratio
+     * @param RGBColorExtractor $extractor
+     * @param Imagick           $imagick Imagick instance
+     * @param int               $sampleWidth Image sample width
+     * @param int               $sampleHeight Image sample height
+     * @param int               $sampleBlurRatio Image blur ratio
      */
     public function __construct(
+        RGBColorExtractor $extractor,
         Imagick $imagick,
         $sampleWidth = self::DEFAULT_SAMPLE_WIDTH,
         $sampleHeight = self::DEFAULT_SAMPLE_HEIGHT,
         $sampleBlurRatio = self::DEFAULT_SAMPLE_BLUR_RATIO
-    ) {
+    )
+    {
+        $this->extractor = $extractor;
         $this->imagick = $imagick;
         $this->sampleWidth = $sampleWidth;
         $this->sampleHeight = $sampleHeight;
         $this->sampleBlurRatio = $sampleBlurRatio;
     }
-
 
     /**
      * {@inheritdoc}
@@ -92,6 +100,7 @@ class ImagickDominantColorExtractor implements DominantColorExtractorInterface
         $this->imagick->quantizeImage(1, Imagick::COLORSPACE_RGB, 0, false, false);
         $this->imagick->setFormat('RGB');
 
-        return substr(bin2hex($this->imagick->getImageBlob()), 0, 6);
+        // Delegate color extraction
+        return $this->extractor->extract($this->imagick->getImageBlob());
     }
 }

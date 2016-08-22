@@ -3,8 +3,10 @@
 namespace Toothless\TinyImage\Tests\Extractor;
 
 use Imagick;
+use PHPUnit_Framework_MockObject_MockObject;
 use Toothless\TinyImage\Extractor\DominantColorExtractorInterface;
 use Toothless\TinyImage\Extractor\ImagickDominantColorExtractor;
+use Toothless\TinyImage\Extractor\RGBColorExtractor;
 
 /**
  * Class ImagickDominantColorExtractorTest
@@ -17,9 +19,20 @@ class ImagickDominantColorExtractorTest extends \PHPUnit_Framework_TestCase
     private $extractor;
 
     /**
-     * @var Imagick
+     * @var RGBColorExtractor|PHPUnit_Framework_MockObject_MockObject
+     */
+    private $rgbExtractor;
+
+    /**
+     * @var Imagick|PHPUnit_Framework_MockObject_MockObject
      */
     private $imagick;
+
+    private $sampleWidth = 100;
+
+    private $sampleHeight = 100;
+
+    private $sampleBlur = 0.5;
 
     /**
      * {@inheritdoc}
@@ -28,8 +41,16 @@ class ImagickDominantColorExtractorTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->imagick = new Imagick();
-        $this->extractor = new ImagickDominantColorExtractor($this->imagick);
+        $this->rgbExtractor = $this->createMock(RGBColorExtractor::class);
+        $this->imagick = $this->createMock(Imagick::class);
+
+        $this->extractor = new ImagickDominantColorExtractor(
+            $this->rgbExtractor,
+            $this->imagick,
+            $this->sampleWidth,
+            $this->sampleHeight,
+            $this->sampleBlur
+        );
     }
 
     public function testInstance()
@@ -37,29 +58,32 @@ class ImagickDominantColorExtractorTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(DominantColorExtractorInterface::class, $this->extractor);
     }
 
-    /**
-     * @param string $filename
-     * @param string $expectedColor
-     *
-     * @dataProvider provideExtract
-     */
-    public function testExtract($filename, $expectedColor)
+    public function testExtract()
     {
-        $content = file_get_contents(__DIR__.'/../../../Fixtures/'.$filename);
+        $content = 'dummy_content';
+        $blobContent = 'content_blob';
+        $expectedColor = 'ffffff';
+
+        $this->imagick->method('getImageBlob')->willReturn($blobContent);
+        $this->rgbExtractor->method('extract')->with($blobContent)->willReturn($expectedColor);
+
+        $this->imagick->expects($this->once())->method('readImageBlob')->with($content);
+        $this->imagick->expects($this->once())->method('resizeImage')->with(
+            $this->sampleWidth,
+            $this->sampleHeight,
+            Imagick::FILTER_GAUSSIAN,
+            $this->sampleBlur
+        );
+        $this->imagick->expects($this->once())->method('quantizeImage')->with(
+            1,
+            Imagick::COLORSPACE_RGB,
+            0,
+            false,
+            false
+        );
+        $this->imagick->expects($this->once())->method('setFormat')->with('RGB');
 
         $color = $this->extractor->extract($content);
         $this->assertSame($expectedColor, $color);
-    }
-
-    /**
-     * @return array
-     */
-    public function provideExtract()
-    {
-        return [
-            ['file1.jpg', '5e5b5a'],
-            ['file2.jpg', '896c51'],
-            ['file3.png', '040404'],
-        ];
     }
 }
