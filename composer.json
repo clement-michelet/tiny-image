@@ -1,13 +1,22 @@
 {
   "name": "toothless/tiny-image",
   "description": "Generate a tiny image of the given image",
-  "minimum-stability": "dev",
+  "keywords": [
+    "imagick",
+    "dominant",
+    "thumbnail"
+  ],
   "license": "MIT",
   "authors": [
     {
-      "name": "Clément MICHELET"
+      "name": "Clément MICHELET",
+      "role": "owner"
     }
   ],
+  "support": {
+    "issues": "https://github.com/clement-michelet/tiny-image/issues",
+    "source": "https://github.com/clement-michelet/tiny-image"
+  },
   "require": {
     "php": "~5.6|~7.0"
   },
