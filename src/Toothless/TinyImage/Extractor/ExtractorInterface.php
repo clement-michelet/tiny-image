@@ -3,12 +3,12 @@
 namespace Toothless\TinyImage\Extractor;
 
 /**
- * Interface ColorExtractorInterface
+ * Interface ExtractorInterface
  */
-interface ColorExtractorInterface extends ExtractorInterface
+interface ExtractorInterface
 {
     /**
-     * Get the hexadecimal color code for the given image content
+     * Extract a string from the given image content
      *
      * @param string $content
      *
